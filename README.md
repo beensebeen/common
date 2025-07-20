@@ -56,7 +56,7 @@
 
 ## 3️⃣ 프로젝트 프로세스
 ### 🖼 프로세스 다이어그램: 
-<img width="14852" height="8756" alt="Image" src="https://github.com/user-attachments/assets/155d0b4f-74d8-49b7-a676-7b05e1cb0757" />
+<img width="16384" height="5315" alt="Image" src="https://github.com/user-attachments/assets/428c50e3-7764-4bbe-9d1a-0fad94bda583" />
 
 ---
 
@@ -66,7 +66,7 @@
 
 🖼 **ERD 이미지:**
 <br>
-<img width="16384" height="5315" alt="Image" src="https://github.com/user-attachments/assets/428c50e3-7764-4bbe-9d1a-0fad94bda583" />
+<img width="1431" height="1634" alt="Image" src="https://github.com/user-attachments/assets/a144f23c-eccd-43a8-9e59-68a7373e0d2f" />
 
 ---
 
