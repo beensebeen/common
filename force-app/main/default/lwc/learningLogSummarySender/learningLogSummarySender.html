@@ -1,0 +1,34 @@
+<template>
+    <lightning-card title="학습 요약 이메일 전송" icon-name="custom:custom63">
+        <div class="slds-var-p-around_medium">
+            <div class="card-description">
+                (っ ᵔ◡ᵔ)っ 아동의 학습일지를 요약하여 학부모님께 이메일로 전달합니다.
+            </div>
+
+            <template if:true={isRunning}>
+                <div class="slds-m-top_small slds-align_absolute-center">
+                    <lightning-spinner alternative-text="생성중..." size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- 항상 렌더링 -->
+            <lightning-flow
+                flow-api-name="LearningLogEmail"
+                flow-input-variables={inputVariables}
+                onstatuschange={handleStatusChange}>
+            </lightning-flow>
+
+            <template if:true={isSuccess}>
+                <div class="slds-m-top_small slds-text-color_success">
+                    *⸜( •ᴗ• )⸝* 이메일 전송이 완료되었습니다.
+                </div>
+            </template>
+
+            <template if:true={isFailure}>
+                <div class="slds-m-top_small slds-text-color_error">
+                    Σ(°△° ꪱꪱꪱ) 이메일 전송을 취소했습니다.
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

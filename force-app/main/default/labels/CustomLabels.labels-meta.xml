@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>GoogleMapsAPIKey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleMapsAPIKey</shortDescription>
+        <value>AIzaSyCmoK-nwBLPNe9LPX3dr69NtJJ3lkigaU4</value>
+    </labels>
+</CustomLabels>

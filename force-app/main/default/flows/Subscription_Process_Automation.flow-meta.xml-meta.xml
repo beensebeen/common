@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <description>구독 내역 생성시 자동으로 Contract과 Quote 생성과정</description>
+    <dynamicChoiceSets>
+        <name>ChildNameRecordChoice</name>
+        <dataType>String</dataType>
+        <displayField>ChildName__c</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ChildName__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <description>과정명(Product)를 선택할 수 있는 곳</description>
+        <name>ProductChoice</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <object>Product2</object>
+        <valueField>Name</valueField>
+    </dynamicChoiceSets>
+    <environments>Default</environments>
+    <formulas>
+        <description>시작일자 및 개월수에 따른 종료일자 자동계산</description>
+        <name>CalculatedEndDate</name>
+        <dataType>Date</dataType>
+        <expression>DATE(
+  YEAR({!lop_002.StartDateInput}) + FLOOR((MONTH({!lop_002.StartDateInput}) + {!lop_002.TermInput} - 1) / 12),
+  MOD(MONTH({!lop_002.StartDateInput}) + {!lop_002.TermInput} - 1, 12) + 1,
+  DAY({!lop_002.StartDateInput})
+)</expression>
+    </formulas>
+    <interviewLabel>M {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Custom Convert Subscription Process</label>
+    <loops>
+        <description>구독내역에 종료일자 계산하여 저장</description>
+        <name>lop_002</name>
+        <label>Loop Subscription(s)</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>SubscriptionCollection.AllItems</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>gtr_003</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>scr_005</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <description>모든 구독 항목들을 구독 내역을 저장</description>
+        <name>crt_004</name>
+        <label>Create Subscription</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>lop_002</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>ContactId__c</field>
+            <value>
+                <elementReference>lop_002.ContactNameInput.selectedChoiceValues</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>EndDate__c</field>
+            <value>
+                <elementReference>CalculatedEndDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ProductId__c</field>
+            <value>
+                <elementReference>gtr_003.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StartDate__c</field>
+            <value>
+                <elementReference>lop_002.StartDateInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Term__c</field>
+            <value>
+                <elementReference>lop_002.TermInput</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Subscription__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>gtr_003</name>
+        <label>Get Product</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>crt_004</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>lop_002.ProductNameInput</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <description>구독 내역에 대한 정보 입력</description>
+        <name>scr_001</name>
+        <label>Screen Subscription Info</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>lop_002</targetReference>
+        </connector>
+        <fields>
+            <name>SubscriptionName</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;구독내역&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>SubscriptionCollection</name>
+            <fieldType>Repeater</fieldType>
+            <fields>
+                <name>ContactNameInput</name>
+                <choiceReferences>ChildNameRecordChoice</choiceReferences>
+                <extensionName>flowruntime:choiceLookup</extensionName>
+                <fieldText>아동이름</fieldText>
+                <fieldType>ComponentChoice</fieldType>
+                <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                <isRequired>true</isRequired>
+                <storeOutputAutomatically>true</storeOutputAutomatically>
+            </fields>
+            <fields>
+                <name>StartDateInput</name>
+                <dataType>Date</dataType>
+                <fieldText>구독 시작일</fieldText>
+                <fieldType>InputField</fieldType>
+                <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                <isRequired>true</isRequired>
+            </fields>
+            <fields>
+                <name>TermInput</name>
+                <dataType>Number</dataType>
+                <fieldText>구독 개월수</fieldText>
+                <fieldType>InputField</fieldType>
+                <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                <isRequired>true</isRequired>
+                <scale>0</scale>
+            </fields>
+            <fields>
+                <name>ProductNameInput</name>
+                <choiceReferences>ProductChoice</choiceReferences>
+                <dataType>String</dataType>
+                <fieldText>과정명</fieldText>
+                <fieldType>DropdownBox</fieldType>
+                <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                <isRequired>true</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <nextOrFinishButtonLabel>다음</nextOrFinishButtonLabel>
+        <pauseButtonLabel>종료</pauseButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>scr_005</name>
+        <label>Screen Done</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>DisplayFinished</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;정상 처리되었습니다. &lt;/span&gt;&lt;span style=&quot;font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;{!crt_004}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>scr_001</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <description>모든 변수를 담아두는 값</description>
+        <name>AllSubscriptionInputs</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Subscription__c</objectType>
+    </variables>
+    <variables>
+        <description>구독 내역을 담아두는 값의 모음</description>
+        <name>SubscriptionInput</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Subscription__c</objectType>
+    </variables>
+</Flow>

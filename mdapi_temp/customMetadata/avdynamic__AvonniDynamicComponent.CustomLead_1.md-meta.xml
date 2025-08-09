@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>CustomLead</label>
+    <protected>false</protected>
+    <values>
+        <field>avdynamic__CreatedByName__c</field>
+        <value xsi:type="xsd:string">커몬 학습</value>
+    </values>
+    <values>
+        <field>avdynamic__CreatedDateTime__c</field>
+        <value xsi:type="xsd:dateTime">2025-07-15T01:54:45.000Z</value>
+    </values>
+    <values>
+        <field>avdynamic__DebugResourceValues__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__Description__c</field>
+        <value xsi:type="xsd:string">리드</value>
+    </values>
+    <values>
+        <field>avdynamic__DynamicComponentName__c</field>
+        <value xsi:type="xsd:string">CustomLead</value>
+    </values>
+    <values>
+        <field>avdynamic__FolderNames__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__Interactions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__IsLastModified__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>avdynamic__LastModifiedByName__c</field>
+        <value xsi:type="xsd:string">커몬 학습</value>
+    </values>
+    <values>
+        <field>avdynamic__LastModifiedDateTime__c</field>
+        <value xsi:type="xsd:dateTime">2025-07-15T01:54:45.000Z</value>
+    </values>
+    <values>
+        <field>avdynamic__ObjectApiName__c</field>
+        <value xsi:type="xsd:string">Lead</value>
+    </values>
+    <values>
+        <field>avdynamic__Queries__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__Resources__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__Status__c</field>
+        <value xsi:type="xsd:string">Inactive</value>
+    </values>
+    <values>
+        <field>avdynamic__StyleClasses__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>avdynamic__VersionNumber__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+</CustomMetadata>
